@@ -1,18 +1,11 @@
-from math import sqrt
-import sys, random
+import sys
+import numpy as np
 
-def std_deviation(data: list) -> float:
-    n = len(data)
-    mean = sum(data)/n
-    variance = sum((x-mean)**2 for x in data) / n
+def z_score_norm(data: np.ndarray) -> np.ndarray:
+    sigma = np.std(data)
+    mean = np.mean(data)
 
-    return sqrt(variance) 
-
-def z_score_norm(data) -> list[float]:
-    sigma = std_deviation(data)
-    mean = sum(data)/len(data)
-
-    return [(x-mean)/sigma for x in data]
+    return np.array((data-mean)/sigma)
 
 def print_comparison(data, data_norm) -> None:
     for value, value2 in zip(data, data_norm):
@@ -21,13 +14,16 @@ def print_comparison(data, data_norm) -> None:
 if __name__ == "__main__":
     
     if len(sys.argv) > 1:
-        upper_bound = int(sys.argv[1])
-        size = int(sys.argv[2])
+        min_value = int(sys.argv[1])
+        max_value = int(sys.argv[2])
+        
+        size = int(sys.argv[3])
 
-        sample = [random.randint(1,upper_bound) for _ in range(size)]
+        rng = np.random.default_rng()
+        sample = (max_value-min_value) * rng.random((size,)) + min_value
 
-        if len(sys.argv) == 4:
-            outlier = int(sys.argv[3])
-            sample.append(outlier)
+        if len(sys.argv) == 5:
+            outlier = int(sys.argv[4])
+            sample[-1] = outlier
 
-        print_comparison(sample,z_score_norm(sample))
+        print_comparison(sample, z_score_norm(sample))
