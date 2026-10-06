@@ -78,6 +78,7 @@ if __name__ == "__main__":
 
     rng = np.random.default_rng()
     data = rng.random((m,n))
+    
 
     model = KMeans(k=k)
     model.fit(data)
