@@ -26,6 +26,7 @@ class KMeans():
             distances = np.linalg.norm(data[:, np.newaxis] - centroids, axis=2)
     
             # Get the index of the closest centroid for each of the n points
+            # (n, k) -> (n,)
             map_point_centroid = np.argmin(distances, axis=1)
             
             centroids = np.zeros((k, dim))
@@ -44,6 +45,7 @@ class KMeans():
             # (k, dim) /= (k, 1) = (k, dim)
             centroids /= cnt[:, np.newaxis]
 
+            # Condition to check if the centroids are moving considerably
             if np.allclose(centroids, old_centroids, atol=self.tol):
                 break
 
@@ -55,7 +57,7 @@ class KMeans():
 
         # min((n,k), axis=1) = (n,)
         # sum((n,)) = float
-        self.inertia = np.sum(np.min(distances, axis=1))
+        self.inertia = np.sum(np.min(distances, axis=1)**2)
         
         self.centroids = centroids 
 
