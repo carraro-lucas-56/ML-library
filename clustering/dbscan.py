@@ -44,7 +44,7 @@ class DBSCAN:
                     # Assign a label to all density reachable points
                     labels[neighbors] = curr_label
 
-                if visited[i] == False:
+                if not visited[i]:
                     num_visited += 1
                     visited[i] = True
 

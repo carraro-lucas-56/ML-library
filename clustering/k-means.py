@@ -1,9 +1,9 @@
 import numpy as np
 
 class KMeans():
-    def __init__(self, k: int, 
+    def __init__(self, k: int = 2, *,
                  max_iter: int = 300, 
-                 tol: float =1e-4) -> None:
+                 tol: float = 1e-4) -> None:
         
         self.num_centroids = k
         self.max_iter = max_iter
